@@ -1,0 +1,53 @@
+import { Theme } from "../theme.slint";
+import { ButtonSurface } from "button.slint";
+
+// The wizard owns one viewport-clamped tooltip, so help cannot be clipped by a card.
+export component OnboardingHelp inherits ButtonSurface {
+    in property <int> help-id;
+    in property <string> title;
+    in property <string> description;
+    in-out property <int> active-id: -1;
+    in-out property <length> anchor-x;
+    in-out property <length> anchor-y;
+
+    width: 22px;
+    height: 22px;
+    border-radius: 11px;
+    background: root.has-hover || root.has-focus ? Theme.overlay-hover : Theme.overlay;
+    accessible-name: @tr("Wyjaśnienie: ") + root.title + ". " + root.description;
+
+    function show-help() {
+        root.anchor-x = root.absolute-position.x;
+        root.anchor-y = root.absolute-position.y;
+        root.active-id = root.help-id;
+    }
+    changed has-hover => {
+        if (root.has-hover) {
+            hover-delay.restart();
+        } else {
+            hover-delay.stop();
+            if (!root.has-focus && root.active-id == root.help-id) { root.active-id = -1; }
+        }
+    }
+    changed has-focus => {
+        if (root.has-focus) { root.show-help(); }
+        else if (!root.has-hover && root.active-id == root.help-id) { root.active-id = -1; }
+    }
+    clicked => { root.show-help(); }
+
+    hover-delay := Timer {
+        interval: 300ms;
+        running: false;
+        triggered => { self.stop(); if (root.has-hover) { root.show-help(); } }
+    }
+    Text {
+        width: parent.width;
+        height: parent.height;
+        text: "?";
+        color: Theme.primary-foreground;
+        font-size: 14px;
+        font-weight: 700;
+        horizontal-alignment: center;
+        vertical-alignment: center;
+    }
+}

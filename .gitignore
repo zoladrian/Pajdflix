@@ -1,0 +1,26 @@
+**/target/
+**/artifacts/
+**/vcpkg/
+**/vcpkg_installed/
+**/.cursor/
+audit/
+
+# Notatki robocze i audyt zabezpieczeń — zostają lokalnie, nie w publicznym repo.
+stremio-native/STARTUP-DIAGNOSIS.md
+stremio-native/MVP-1.0.0.md
+stremio-native/TODO.md
+stremio-native/CACHE-CLEANUP.md
+stremio-native/WYBOR-ZRODEL.md
+stremio-native/POLSKIE-ZRODLA.md
+stremio-native/security/
+stream-server/SECURITY-PROGRESS.md
+stremio-native/.github/workflows/
+stream-server/.github/workflows/
+*.log
+*.obj
+*.exe
+*.dll
+*.pdb
+Thumbs.db
+Desktop.ini
+.DS_Store
